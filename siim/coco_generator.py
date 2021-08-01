@@ -4,12 +4,10 @@ def make_json(df, image_set='train'):
     annotations = []
     images = []
     licenses = []
-    categories = [{"categories":
-                          [
-                              { "id": 1,
-                                "name": "opacity"}
-                          ]
-                      }]
+    categories = [
+                  { "id": 1,
+                    "name": "opacity"}
+              ]
     info = {
         "description": "SIIM Covid Dataset",
         "url": "http://kaggle.com",
@@ -19,8 +17,10 @@ def make_json(df, image_set='train'):
         "date_created": "2021/07/01"
     }
 
-    for idx, row in df.iterrows():
-        image_id = row['id']
+    ann_counter = 0
+    img_counter = 0
+    for _, row in df.iterrows():
+        
         file_name = row['id'][:12] + '.jpg'
         ann_str = row['label']
         ann_list_raw = ann_str.split(' ')
@@ -29,7 +29,7 @@ def make_json(df, image_set='train'):
         # Images
         images.append({
             "file_name": file_name,
-            "id": image_id
+            "id": img_counter
         })
 
 
@@ -39,14 +39,15 @@ def make_json(df, image_set='train'):
             if cat_name == 'none':
                 continue
             else:
-                ann_id = image_id + '_' + str(i)
                 annotations.append({
                     "bbox": [x, y, w, h],
                     "category_id": 1,
-                    "id": ann_id,
-                    "image_id": image_id
+                    "id": ann_counter,
+                    "image_id": img_counter
                 })
-
+                ann_counter += 1
+        img_counter+= 1
+    
     content = {
         'info': info,
         'licenses': licenses,
