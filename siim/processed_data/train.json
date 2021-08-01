@@ -89696,12 +89696,8 @@
     ],
     "categories": [
         {
-            "categories": [
-                {
-                    "id": 1,
-                    "name": "opacity"
-                }
-            ]
+            "id": 1,
+            "name": "opacity"
         }
     ]
 }
